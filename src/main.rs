@@ -79,13 +79,23 @@ impl Client {
     }
 
     pub fn read_packet(&mut self) -> Packet {
-        self.conn.read_until(FRAME_START_BYTE, &mut self.buffer).unwrap();
         self.buffer.clear();
+        let len = self.conn.read_until(FRAME_END_BYTE, &mut self.buffer).unwrap();
 
-        self.conn.read_until(FRAME_END_BYTE, &mut self.buffer).unwrap();
+        if self.buffer[0] != FRAME_START_BYTE {
+            panic!("Unexpected start byte: {:02x}", self.buffer[0]);
+        }
 
-        let packet_data = unescape_data(&self.buffer);
-        let p: Packet = Packet::from_bytes((&packet_data, 0)).unwrap().1;
+        if self.buffer[len - 1] != FRAME_END_BYTE {
+            panic!("Unexpected end byte: {:02x}", self.buffer[len - 1]);
+        }
+
+        let packet_data = unescape_data(&self.buffer[1..len - 1]);
+        let ((remaining, _), p): ((&[u8], _), Packet) = Packet::from_bytes((&packet_data, 0)).unwrap();
+
+        if !remaining.is_empty() {
+            panic!("Unexpected leftover Packet bytes. {:?}", remaining);
+        }
 
         println!("Received packet: {:?} Seqno: {:?} Data: {:x?}", p.data_type, p.seq_no, &p.data);
 

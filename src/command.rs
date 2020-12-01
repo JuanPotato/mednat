@@ -96,7 +96,13 @@ impl Packet {
             panic!("Yikes");
         }
 
-        SonyCommand::from_bytes((&self.data, 0)).unwrap().1
+        let ((remaining, _), c): ((&[u8], _), SonyCommand) = SonyCommand::from_bytes((&self.data, 0)).unwrap();
+
+        if !remaining.is_empty() {
+            panic!("Unexpected leftover Command bytes. {:?}", remaining);
+        }
+
+        c
     }
 
     pub fn calc_checksum(&self) -> u8 {
