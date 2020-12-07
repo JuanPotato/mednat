@@ -5,17 +5,20 @@ mod smol_fd;
 mod rfcomm;
 mod btaddr;
 mod command;
+mod battery;
+mod deku_str;
 
 use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use command::*;
+use battery::{GetBatteryLevel, BatteryType};
 use crate::btaddr::BtAddr;
 
 fn main() {
     let b = btaddr::BtAddr::from_str("38:18:4C:B6:BF:02").unwrap().convert_host_byteorder();
     let mut client = Client::new(b);
 
-    let get_bat = SonyCommand::GetBatteryLevel(GetBatteryLevel {
+    let get_bat = SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
         battery_type: BatteryType::LeftRight
     });
     client.send_cmd(&get_bat);
@@ -23,14 +26,64 @@ fn main() {
     dbg!(client.read_packet());
     dbg!(client.read_packet().read_cmd());
 
-    let get_bat = SonyCommand::GetBatteryLevel(GetBatteryLevel {
+    let get_bat = SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
         battery_type: BatteryType::Cradle
     });
     client.send_cmd(&get_bat);
 
     dbg!(client.read_packet());
     dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetProtocolInfo(GetProtocolInfo {
+        capability_inquired: CommonCapabilityInquiredType::FixedValue,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetCapabilityInfo(GetCapabilityInfo {
+        capability_inquired: CommonCapabilityInquiredType::FixedValue,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
+        info_inquired: DeviceInfoInquiredType::SeriesAndColorInfo,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
+        info_inquired: DeviceInfoInquiredType::ModelName,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
+        info_inquired: DeviceInfoInquiredType::FwVersion,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
+    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
+        info_inquired: DeviceInfoInquiredType::InstructionGuide,
+    });
+    client.send_cmd(&get_bat);
+
+    dbg!(client.read_packet());
+    dbg!(client.read_packet().read_cmd());
+
 }
+
 
 pub struct Client {
     conn: BufReader<rfcomm::RfcommStream>,
@@ -95,6 +148,10 @@ impl Client {
 
         if !remaining.is_empty() {
             panic!("Unexpected leftover Packet bytes. {:?}", remaining);
+        }
+
+        if p.checksum != p.calc_checksum() {
+            panic!("Incorrect packet checksum.");
         }
 
         println!("Received packet: {:?} Seqno: {:?} Data: {:x?}", p.data_type, p.seq_no, &p.data);
