@@ -165,7 +165,7 @@ pub struct RetConciergeData {
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SetLinkControl {
-    #[deku(id = "1")] KeepAlive(KeepAliveLinkControl)
+    #[deku(id = "0")] KeepAlive(KeepAliveLinkControl)
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
@@ -173,7 +173,6 @@ pub struct KeepAliveLinkControl {
     pub status: CommonStatus,
     pub duration: u8,
 }
-
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]

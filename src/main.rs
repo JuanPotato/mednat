@@ -13,7 +13,7 @@ use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{BluetoothDeviceInfoType, CommonCapabilityInquiredType, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue};
+use crate::params::{BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue};
 use crate::commands::*;
 
 fn main() {
@@ -66,6 +66,10 @@ fn main() {
         SonyCommand::CommonGetConnectionStatus(GetConnectionStatus {
             connection_status_inquired_type: ConnectionStatusInquiredType::LeftRightConnectionStatus
         }),
+        SonyCommand::CommonSetLinkControl(SetLinkControl::KeepAlive(KeepAliveLinkControl{
+            status: CommonStatus::Enable,
+            duration: 1
+        })),
     ];
 
     for test in &tests {

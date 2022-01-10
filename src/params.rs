@@ -870,6 +870,7 @@ pub enum NcAsmInquiredType {
     OutOfRange,
 }
 
+// Generalsetting
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum GsStringFormat {
@@ -897,6 +898,7 @@ pub enum GsSettingType {
     OutOfRange,
 }
 
+// Testcommand
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum AtCommandMessageType {
@@ -921,6 +923,7 @@ pub enum TestCommandType {
     OutOfRange,
 }
 
+// Smarttalkingmode
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeEffectStatus {
