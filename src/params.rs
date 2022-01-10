@@ -5,7 +5,7 @@ use deku::prelude::*;
 pub enum CommonStatus {
     Enable = 0,
     Disable = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -16,7 +16,7 @@ pub enum DeviceInfoInquiredType {
     FwVersion = 2,
     SeriesAndColorInfo = 3,
     InstructionGuide = 4,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -26,7 +26,7 @@ pub enum EqEbbInquiredType {
     PresetEq = 1,
     Ebb = 2,
     PresetEqNoncustomizable = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -35,7 +35,7 @@ pub enum AudioInquiredType {
     NoUse = 0,
     ConnectionMode = 1,
     Upscaling = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -60,7 +60,7 @@ pub enum UpscalingEffectStatus {
 pub enum PlayInquiredType {
     NoUse = 0,
     PlaybackController = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -73,14 +73,14 @@ pub enum GuidanceCategory {
     MainBodyOperation = 64,
     QuickAttention = 80,
     AssignableButtonSettings = 96,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum LinkControlInquiredType {
     KeepAlive = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -88,7 +88,7 @@ pub enum LinkControlInquiredType {
 pub enum BarometricMeasureType {
     NotSupport = 0,
     BarometricPressure = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -97,7 +97,7 @@ pub enum AlertInquiredType {
     NoUse = 0,
     FixedMessage = 1,
     VibratorAlertNotification = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -133,7 +133,7 @@ pub enum PlaybackStatus {
     Play = 1,
     Pause = 2,
     Stop = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -147,7 +147,7 @@ pub enum UpscalingSettingType {
 pub enum SportsInquiredType {
     NoUse = 0,
     TrainingMode = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -156,7 +156,7 @@ pub enum TrainingModeAvailableEffectType {
     NoUse = 0,
     Type1 = 1,
     Type2 = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -170,7 +170,7 @@ pub enum AssignableSettingsPreset {
     AmazonAlexa = 50,
     TencentXiaowei = 51,
     NoFunction = 255,
-    OutOfRange = 254,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -180,7 +180,7 @@ pub enum AssignableSettingsKey {
     RightSideKey = 1,
     CustomKey = 2,
     CKey = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -188,7 +188,7 @@ pub enum AssignableSettingsKey {
 pub enum AlertVibrationPattern {
     NoUse = 0,
     OnePatternOnly = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -196,7 +196,7 @@ pub enum AlertVibrationPattern {
 pub enum SoundPositionType {
     NoUse = 0,
     Type1 = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -216,7 +216,7 @@ pub enum SoundPositionPresetId {
     Front = 3,
     RearLeft = 17,
     RearRight = 18,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -231,7 +231,7 @@ pub enum UpscalingSettingValue {
 pub enum NcSettingValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -242,14 +242,14 @@ pub enum BarometricPressureValue {
     Measured08 = 8,
     Measured09 = 9,
     Measured10 = 10,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum CommonCapabilityInquiredType {
     FixedValue = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -257,7 +257,7 @@ pub enum CommonCapabilityInquiredType {
 pub enum MetaDataDisplayType {
     NotSupport = 0,
     TrackAlbumArtistGenrePlayer = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -316,7 +316,7 @@ pub enum ConnectionStatus {
 pub enum AssignableSettingsKeyType {
     TouchSensor = 0,
     Button = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -325,7 +325,7 @@ pub enum VptInquiredType {
     NoUse = 0,
     Vpt = 1,
     SoundPosition = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -334,7 +334,7 @@ pub enum PlaybackNameStatus {
     Unsettled = 0,
     Nothing = 1,
     Settled = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -342,7 +342,7 @@ pub enum PlaybackNameStatus {
 pub enum PowerSavingModeSettingValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -363,14 +363,14 @@ pub enum AsmSettingType {
 pub enum PersonalMeasureType {
     NotSupport = 0,
     Personal = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum PowerOffInquiredType {
     FixedValue = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -389,7 +389,7 @@ pub enum AssignableSettingsAction {
     DoubleTapAndHold = 17,
     LongPressThenActivate = 33,
     LongPressDuringActivation = 34,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 
@@ -422,7 +422,7 @@ pub enum DisplayLanguage {
 pub enum PlaybackControlType {
     NotSupport = 0,
     PlayPauseTrackupTrackdown = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -450,7 +450,7 @@ pub enum AssignableSettingsFunction {
     VoiceInputCancelAa = 52,
     TalkToTencentXiaowei = 53,
     CancelVoiceRecognition = 54,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -463,7 +463,7 @@ pub enum ConnectionModeSettingType {
 #[deku(type = "u8")]
 pub enum ConnectionStatusInquiredType {
     LeftRightConnectionStatus = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -480,7 +480,7 @@ pub enum BatteryInquiredType {
     Battery = 0,
     LeftRightBattery = 1,
     CradleBattery = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -500,7 +500,7 @@ pub enum SystemInquiredType {
     AutoPowerOff = 4,
     SmartTalkingMode = 5,
     AssignableSettings = 6,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -508,7 +508,7 @@ pub enum SystemInquiredType {
 pub enum LogInquiredType {
     NoUse = 0,
     ActionLogNotifier = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -543,7 +543,7 @@ pub enum UpscalingEffectType {
 #[deku(type = "u8")]
 pub enum AutoPowerOffParameterType {
     ActiveAndSelectimeId = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -551,7 +551,7 @@ pub enum AutoPowerOffParameterType {
 pub enum SenseInquiredType {
     NoUse = 0,
     AutoNcAsm = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -566,7 +566,7 @@ pub enum SpecificInformationType {
 pub enum PersonalValue {
     Unmeasured = 0,
     Measured = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -617,7 +617,7 @@ pub enum EqPresetId {
     UserSetting3 = 163,
     UserSetting4 = 164,
     UserSetting5 = 165,
-    Unspecified = 255,
+    Unspecified,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -629,7 +629,7 @@ pub enum PlaybackDetailedDataType {
     GenreName = 3,
     PlayerName = 16,
     Volume = 32,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -639,7 +639,7 @@ pub enum NcAsmEffect {
     On = 1,
     AdjustmentInProgress = 16,
     AdjustmentCompletion = 17,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -647,7 +647,7 @@ pub enum NcAsmEffect {
 pub enum AsmOnOffValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -679,7 +679,7 @@ pub enum NcDualSingleValue {
     Off = 0,
     Single = 1,
     Dual = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -717,7 +717,7 @@ pub enum SenseTableType {
     Type1 = 1,
     Type2 = 2,
     Type3 = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -735,7 +735,7 @@ pub enum UpdateInquiredType {
     UpdateMethod = 9,
     BatteryPowerThresholdForInterruptiongFwUpdate = 10,
     UniqueIdForDeviceBinding = 11,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -744,7 +744,7 @@ pub enum OptimizerInquiredType {
     NoUse = 0,
     NcOptimizer = 1,
     NcMusicOptimizer = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -759,7 +759,7 @@ pub enum ConnectionModeSettingValue {
 pub enum NcOnOffValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -774,7 +774,7 @@ pub enum AlertActionType {
 pub enum VibratorSettingValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -782,7 +782,7 @@ pub enum VibratorSettingValue {
 pub enum OptimizerControl {
     Cancel = 0,
     Start = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -796,7 +796,7 @@ pub enum TrainingModeExParameterType {
     AsmActualEffects = 19,
     PresetEqSettings = 32,
     PresetEqActualEffects = 33,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -812,7 +812,7 @@ pub enum PlaybackControl {
     Play = 7,
     FastForward = 8,
     FastRewind = 9,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -820,7 +820,7 @@ pub enum PlaybackControl {
 pub enum AsmId {
     Normal = 0,
     Voice = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -857,7 +857,7 @@ pub enum AudioCodec {
     Ldac = 16,
     AptX = 32,
     AptXHd = 33,
-    Other = 255,
+    Other,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -867,7 +867,7 @@ pub enum NcAsmInquiredType {
     NoiseCancelling = 1,
     NoiseCancellingAndAmbientSoundMode = 2,
     AmbientSoundMode = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -876,7 +876,7 @@ pub enum GsStringFormat {
     NoUse = 0,
     RawName = 1,
     EnumName = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -885,7 +885,7 @@ pub enum GsInquiredType {
     GeneralSetting1 = 209,
     GeneralSetting2 = 210,
     GeneralSetting3 = 211,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -894,7 +894,7 @@ pub enum GsSettingType {
     NoUse = 0,
     BooleanType = 1,
     ListType = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -902,7 +902,7 @@ pub enum GsSettingType {
 pub enum AtCommandMessageType {
     Request = 1,
     Response = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -911,14 +911,14 @@ pub enum TargetType {
     App = 0,
     HeadphonesOrTwsMaster = 1,
     TwsSlave = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum TestCommandType {
     Atcommand = 5,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -926,21 +926,21 @@ pub enum TestCommandType {
 pub enum SmartTalkingModeEffectStatus {
     NotActive = 0,
     Active = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeSettingType {
     OnOff = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeDetectionSensitivityType {
     AutoHighLow = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -956,7 +956,7 @@ pub enum SmartTalkingModeParameterType {
 pub enum SmartTalkingModeSettingValue {
     Off = 0,
     On = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -966,14 +966,14 @@ pub enum ModeOutTime {
     Mid = 1,
     Slow = 2,
     None = 3,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeVoiceFocusType {
     OnOff = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -982,21 +982,21 @@ pub enum DetectionSensitivity {
     Auto = 0,
     High = 1,
     Low = 2,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeDetailSettingType {
     Type1 = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SmartTalkingModeModeOutTimeType {
     Type1 = 0,
-    OutOfRange = 255,
+    OutOfRange,
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
@@ -1004,5 +1004,5 @@ pub enum SmartTalkingModeModeOutTimeType {
 pub enum SmartTalkingModePreviewType {
     NotSupport = 0,
     Support = 1,
-    OutOfRange = 255,
+    OutOfRange,
 }
