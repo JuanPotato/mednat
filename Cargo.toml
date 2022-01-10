@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 # For protocol ez
-deku = "0.9.1"
+deku = "0.12.5"
 # For getting bluetooth devices
 blurz = "0.4.0"
 # For connecting to raw bluetooth socket

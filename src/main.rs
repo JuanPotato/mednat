@@ -4,84 +4,80 @@ mod libc_helpe;
 mod smol_fd;
 mod rfcomm;
 mod btaddr;
-mod command;
-mod battery;
-mod deku_str;
+mod packet;
+mod len_str;
+mod params;
+mod commands;
 
 use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
-use command::*;
-use battery::{GetBatteryLevel, BatteryType};
+use packet::*;
 use crate::btaddr::BtAddr;
+use crate::params::{BluetoothDeviceInfoType, CommonCapabilityInquiredType, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue};
+use crate::commands::*;
 
 fn main() {
-    let b = btaddr::BtAddr::from_str("38:18:4C:B6:BF:02").unwrap().convert_host_byteorder();
+    let b = btaddr::BtAddr::from_str("94:DB:56:99:AF:26").unwrap().convert_host_byteorder();
     let mut client = Client::new(b);
 
-    let get_bat = SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
-        battery_type: BatteryType::LeftRight
-    });
-    client.send_cmd(&get_bat);
+    let tests = [
+        // Connect
+        SonyCommand::ConnectGetProtocolInfo(GetProtocolInfo {
+            capability_inquired: CommonCapabilityInquiredType::FixedValue,
+        }),
+        SonyCommand::ConnectGetCapabilityInfo(GetCapabilityInfo {
+            capability_inquired: CommonCapabilityInquiredType::FixedValue,
+        }),
+        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+            info_inquired: DeviceInfoInquiredType::SeriesAndColorInfo,
+        }),
+        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+            info_inquired: DeviceInfoInquiredType::ModelName,
+        }),
+        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+            info_inquired: DeviceInfoInquiredType::FwVersion,
+        }),
+        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+            info_inquired: DeviceInfoInquiredType::InstructionGuide,
+        }),
+        SonyCommand::ConnectGetSupportFunction(GetSupportFunction {
+            common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
+        }),
 
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
+        // Common
+        SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
+            battery_type: BatteryType::LeftRight
+        }),
+        SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
+            battery_type: BatteryType::Cradle
+        }),
+        SonyCommand::CommonGetUpscalingEffect(GetUpscalingEffect {
+            common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
+        }),
+        SonyCommand::CommonGetAudioCodec(GetAudioCodec {
+            common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
+        }),
+        SonyCommand::CommonGetBluetoothDeviceInfo(GetBluetoothDeviceInfo {
+            bluetooth_device_info_type: BluetoothDeviceInfoType::BluetoothDeviceAddress
+        }),
+        SonyCommand::CommonGetBluetoothDeviceInfo(GetBluetoothDeviceInfo {
+            bluetooth_device_info_type: BluetoothDeviceInfoType::BleHashValue
+        }),
+        SonyCommand::CommonGetConnectionStatus(GetConnectionStatus {
+            connection_status_inquired_type: ConnectionStatusInquiredType::LeftRightConnectionStatus
+        }),
+    ];
 
-    let get_bat = SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
-        battery_type: BatteryType::Cradle
-    });
-    client.send_cmd(&get_bat);
+    for test in &tests {
+        client.test(test);
+    }
 
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetProtocolInfo(GetProtocolInfo {
-        capability_inquired: CommonCapabilityInquiredType::FixedValue,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetCapabilityInfo(GetCapabilityInfo {
-        capability_inquired: CommonCapabilityInquiredType::FixedValue,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
-        info_inquired: DeviceInfoInquiredType::SeriesAndColorInfo,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
-        info_inquired: DeviceInfoInquiredType::ModelName,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
-        info_inquired: DeviceInfoInquiredType::FwVersion,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
-    let get_bat = SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo{
-        info_inquired: DeviceInfoInquiredType::InstructionGuide,
-    });
-    client.send_cmd(&get_bat);
-
-    dbg!(client.read_packet());
-    dbg!(client.read_packet().read_cmd());
-
+    loop {
+        let p = dbg!(client.read_packet());
+        if p.data_type == DataType::DataMdr {
+            dbg!(p.read_cmd());
+        }
+    }
 }
 
 
@@ -116,9 +112,19 @@ impl Client {
         self.send_packet(&packet);
     }
 
+    pub fn test(&mut self, cmd: &SonyCommand) {
+        self.send_cmd(cmd);
+        let ack = self.read_packet();
+        assert!(ack.data_type == DataType::Ack);
+        assert!(ack.data.is_empty());
+
+        dbg!(self.read_packet().read_cmd());
+    }
+
     fn send_packet(&mut self, p: &Packet) {
         println!("Sending packet: {:?} Seqno: {:?} Data: {:x?}", p.data_type, p.seq_no, &p.data);
         let packet_bytes = p.to_bytes().unwrap();
+        // println!("Write: {:x?}", &packet_bytes);
         let escaped = escape_data(&packet_bytes);
 
         self.buffer.clear();
@@ -134,6 +140,7 @@ impl Client {
     pub fn read_packet(&mut self) -> Packet {
         self.buffer.clear();
         let len = self.conn.read_until(FRAME_END_BYTE, &mut self.buffer).unwrap();
+        // println!("Read: {:x?}", &self.buffer);
 
         if self.buffer[0] != FRAME_START_BYTE {
             panic!("Unexpected start byte: {:02x}", self.buffer[0]);
