@@ -39,13 +39,22 @@ pub struct GetDeviceInfo {
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "DeviceInfoInquiredType")]
 pub enum RetDeviceInfo {
-    #[deku(id = "0")] NoUse,
-    #[deku(id = "1")] ModelName(DeviceInfoModelName),
-    #[deku(id = "2")] FwVersion(DeviceInfoFwVersion),
-    #[deku(id = "3")] SeriesAndColorInfo(DeviceInfoSeriesAndColorInfo),
-    #[deku(id = "4")] InstructionGuide(DeviceInfoInstructionGuide),
+    #[deku(id = "DeviceInfoInquiredType::NoUse")]
+    NoUse,
+
+    #[deku(id = "DeviceInfoInquiredType::ModelName")]
+    ModelName(DeviceInfoModelName),
+
+    #[deku(id = "DeviceInfoInquiredType::FwVersion")]
+    FwVersion(DeviceInfoFwVersion),
+
+    #[deku(id = "DeviceInfoInquiredType::SeriesAndColorInfo")]
+    SeriesAndColorInfo(DeviceInfoSeriesAndColorInfo),
+
+    #[deku(id = "DeviceInfoInquiredType::InstructionGuide")]
+    InstructionGuide(DeviceInfoInstructionGuide),
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]

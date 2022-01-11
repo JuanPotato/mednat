@@ -1,46 +1,45 @@
-pub use crate::commands::connect::*;
-pub use crate::commands::common::*;
 use deku::prelude::*;
 
-mod common;
-mod connect;
+pub mod common;
+pub mod connect;
+pub mod update;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum SonyCommand {
-    #[deku(id = "0")] ConnectGetProtocolInfo(GetProtocolInfo),
-    #[deku(id = "1")] ConnectRetProtocolInfo(RetProtocolInfo),
-    #[deku(id = "2")] ConnectGetCapabilityInfo(GetCapabilityInfo),
-    #[deku(id = "3")] ConnectRetCapabilityInfo(RetCapabilityInfo),
-    #[deku(id = "4")] ConnectGetDeviceInfo(GetDeviceInfo),
-    #[deku(id = "5")] ConnectRetDeviceInfo(RetDeviceInfo),
-    #[deku(id = "6")] ConnectGetSupportFunction(GetSupportFunction),
-    #[deku(id = "7")] ConnectRetSupportFunction(RetSupportFunction),
+    #[deku(id = "0")] ConnectGetProtocolInfo(connect::GetProtocolInfo),
+    #[deku(id = "1")] ConnectRetProtocolInfo(connect::RetProtocolInfo),
+    #[deku(id = "2")] ConnectGetCapabilityInfo(connect::GetCapabilityInfo),
+    #[deku(id = "3")] ConnectRetCapabilityInfo(connect::RetCapabilityInfo),
+    #[deku(id = "4")] ConnectGetDeviceInfo(connect::GetDeviceInfo),
+    #[deku(id = "5")] ConnectRetDeviceInfo(connect::RetDeviceInfo),
+    #[deku(id = "6")] ConnectGetSupportFunction(connect::GetSupportFunction),
+    #[deku(id = "7")] ConnectRetSupportFunction(connect::RetSupportFunction),
 
-    #[deku(id = "16")] CommonGetBatteryLevel(GetBatteryLevel),
-    #[deku(id = "17")] CommonRetBatteryLevel(RetBatteryLevel),
-    #[deku(id = "18")] CommonNtfyBatteryLevel(NtfyBatteryLevel),
-    #[deku(id = "20")] CommonGetUpscalingEffect(GetUpscalingEffect),
-    #[deku(id = "21")] CommonRetUpscalingEffect(RetUpscalingEffect),
-    #[deku(id = "23")] CommonNtfyUpscalingEffect(NtfyUpscalingEffect),
-    #[deku(id = "24")] CommonGetAudioCodec(GetAudioCodec),
-    #[deku(id = "25")] CommonRetAudioCodec(RetAudioCodec),
-    #[deku(id = "27")] CommonNtfyAudioCodec(NtfyAudioCodec),
-    #[deku(id = "28")] CommonGetBluetoothDeviceInfo(GetBluetoothDeviceInfo),
-    #[deku(id = "29")] CommonRetBluetoothDeviceInfo(RetBluetoothDeviceInfo),
-    #[deku(id = "34")] CommonSetPowerOff(SetPowerOff),
-    #[deku(id = "36")] CommonGetConnectionStatus(GetConnectionStatus),
-    #[deku(id = "37")] CommonRetConnectionStatus(RetConnectionStatus),
-    #[deku(id = "39")] CommonNtfyConnectionStatus(NtfyConnectionStatus),
-    #[deku(id = "40")] CommonGetConciergeData(GetConciergeData),
-    #[deku(id = "41")] CommonRetConciergeData(RetConciergeData),
-    #[deku(id = "46")] CommonSetLinkControl(SetLinkControl),
-    #[deku(id = "47")] CommonNtfyLinkControl(NtfyLinkControl),
+    #[deku(id = "16")] CommonGetBatteryLevel(common::GetBatteryLevel),
+    #[deku(id = "17")] CommonRetBatteryLevel(common::RetBatteryLevel),
+    #[deku(id = "18")] CommonNtfyBatteryLevel(common::NtfyBatteryLevel),
+    #[deku(id = "20")] CommonGetUpscalingEffect(common::GetUpscalingEffect),
+    #[deku(id = "21")] CommonRetUpscalingEffect(common::RetUpscalingEffect),
+    #[deku(id = "23")] CommonNtfyUpscalingEffect(common::NtfyUpscalingEffect),
+    #[deku(id = "24")] CommonGetAudioCodec(common::GetAudioCodec),
+    #[deku(id = "25")] CommonRetAudioCodec(common::RetAudioCodec),
+    #[deku(id = "27")] CommonNtfyAudioCodec(common::NtfyAudioCodec),
+    #[deku(id = "28")] CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo),
+    #[deku(id = "29")] CommonRetBluetoothDeviceInfo(common::RetBluetoothDeviceInfo),
+    #[deku(id = "34")] CommonSetPowerOff(common::SetPowerOff),
+    #[deku(id = "36")] CommonGetConnectionStatus(common::GetConnectionStatus),
+    #[deku(id = "37")] CommonRetConnectionStatus(common::RetConnectionStatus),
+    #[deku(id = "39")] CommonNtfyConnectionStatus(common::NtfyConnectionStatus),
+    #[deku(id = "40")] CommonGetConciergeData(common::GetConciergeData),
+    #[deku(id = "41")] CommonRetConciergeData(common::RetConciergeData),
+    #[deku(id = "46")] CommonSetLinkControl(common::SetLinkControl),
+    #[deku(id = "47")] CommonNtfyLinkControl(common::NtfyLinkControl),
 
-    #[deku(id = "52")] UpdtSetStatus,
-    #[deku(id = "53")] UpdtNtfyStatus,
-    #[deku(id = "54")] UpdtGetParam,
-    #[deku(id = "55")] UpdtRetParam,
+    #[deku(id = "52")] UpdtSetStatus(update::SetStatus),
+    #[deku(id = "53")] UpdtNtfyStatus(update::NtfyStatus),
+    #[deku(id = "54")] UpdtGetParam(update::GetParam),
+    #[deku(id = "55")] UpdtRetParam(update::RetParam),
 
     #[deku(id = "64")] VptGetCapability,
     #[deku(id = "65")] VptRetCapability,

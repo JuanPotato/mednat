@@ -1,43 +1,38 @@
 use crate::{BluetoothDeviceInfoType, ConnectionStatusInquiredType, PowerOffInquiredType, PowerOffSettingValue};
-use crate::params::{AudioCodec, CommonCapabilityInquiredType, CommonStatus, ConnectionStatus, UpscalingEffectStatus, UpscalingEffectType};
+use crate::params::{AudioCodec, BatteryChargingStatus, BatteryInquiredType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatus, UpscalingEffectStatus, UpscalingEffectType};
 use crate::len_str::{read_len_str, write_len_str};
 use deku::prelude::*;
 
 // Battery
 #[derive(Debug, DekuRead, DekuWrite)]
 pub struct GetBatteryLevel {
-    pub battery_type: BatteryType,
-}
-
-#[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
-pub enum BatteryType {
-    Battery = 0,
-    LeftRight = 1,
-    Cradle = 2,
+    pub battery_type: BatteryInquiredType,
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "BatteryInquiredType")]
 pub enum RetBatteryLevel {
-    #[deku(id = "0")] Battery(BatteryLevel),
-    #[deku(id = "1")] LeftRight(LeftRightBatteryLevel),
-    #[deku(id = "2")] Cradle(CradleBatteryLevel),
-}
+    #[deku(id = "BatteryInquiredType::Battery")]
+    Battery(BatteryLevel),
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
-pub enum BatteryChargingStatus {
-    NotCharging = 0,
-    Charging = 1,
+    #[deku(id = "BatteryInquiredType::LeftRightBattery")]
+    LeftRight(LeftRightBatteryLevel),
+
+    #[deku(id = "BatteryInquiredType::CradleBattery")]
+    Cradle(CradleBatteryLevel),
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "BatteryInquiredType")]
 pub enum NtfyBatteryLevel {
-    #[deku(id = "0")] Battery(BatteryLevel),
-    #[deku(id = "1")] LeftRight(LeftRightBatteryLevel),
-    #[deku(id = "2")] Cradle(CradleBatteryLevel),
+    #[deku(id = "BatteryInquiredType::Battery")]
+    Battery(BatteryLevel),
+
+    #[deku(id = "BatteryInquiredType::LeftRightBattery")]
+    LeftRight(LeftRightBatteryLevel),
+
+    #[deku(id = "BatteryInquiredType::CradleBattery")]
+    Cradle(CradleBatteryLevel),
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
@@ -128,9 +123,10 @@ pub struct GetConnectionStatus {
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "ConnectionStatusInquiredType")]
 pub enum RetConnectionStatus {
-    #[deku(id = "1")] LeftRight(LeftRightConnectionStatus),
+    #[deku(id = "ConnectionStatusInquiredType::LeftRightConnectionStatus")]
+    LeftRight(LeftRightConnectionStatus),
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
@@ -140,9 +136,10 @@ pub struct LeftRightConnectionStatus {
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "ConnectionStatusInquiredType")]
 pub enum NtfyConnectionStatus {
-    #[deku(id = "1")] LeftRight(LeftRightConnectionStatus),
+    #[deku(id = "ConnectionStatusInquiredType::LeftRightConnectionStatus")]
+    LeftRight(LeftRightConnectionStatus),
 }
 
 // Concierge Data
@@ -163,9 +160,10 @@ pub struct RetConciergeData {
 
 // Link Control
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "CommonCapabilityInquiredType")]
 pub enum SetLinkControl {
-    #[deku(id = "0")] KeepAlive(KeepAliveLinkControl)
+    #[deku(id = "CommonCapabilityInquiredType::FixedValue")]
+    KeepAlive(KeepAliveLinkControl)
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
@@ -175,9 +173,10 @@ pub struct KeepAliveLinkControl {
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]
-#[deku(type = "u8")]
+#[deku(type = "CommonCapabilityInquiredType")]
 pub enum NtfyLinkControl {
-    #[deku(id = "0")] KeepAlive(KeepAliveNtfyLinkControl)
+    #[deku(id = "CommonCapabilityInquiredType::FixedValue")]
+    KeepAlive(KeepAliveNtfyLinkControl)
 }
 
 #[derive(Debug, DekuRead, DekuWrite)]

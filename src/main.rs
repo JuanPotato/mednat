@@ -13,7 +13,7 @@ use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue};
+use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue, UpdateInquiredType};
 use crate::commands::*;
 
 fn main() {
@@ -22,54 +22,88 @@ fn main() {
 
     let tests = [
         // Connect
-        SonyCommand::ConnectGetProtocolInfo(GetProtocolInfo {
+        SonyCommand::ConnectGetProtocolInfo(connect::GetProtocolInfo {
             capability_inquired: CommonCapabilityInquiredType::FixedValue,
         }),
-        SonyCommand::ConnectGetCapabilityInfo(GetCapabilityInfo {
+        SonyCommand::ConnectGetCapabilityInfo(connect::GetCapabilityInfo {
             capability_inquired: CommonCapabilityInquiredType::FixedValue,
         }),
-        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::SeriesAndColorInfo,
         }),
-        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::ModelName,
         }),
-        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::FwVersion,
         }),
-        SonyCommand::ConnectGetDeviceInfo(GetDeviceInfo {
+        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::InstructionGuide,
         }),
-        SonyCommand::ConnectGetSupportFunction(GetSupportFunction {
+        SonyCommand::ConnectGetSupportFunction(connect::GetSupportFunction {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
 
         // Common
-        SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
-            battery_type: BatteryType::LeftRight
+        SonyCommand::CommonGetBatteryLevel(common::GetBatteryLevel {
+            battery_type: BatteryInquiredType::LeftRightBattery
         }),
-        SonyCommand::CommonGetBatteryLevel(GetBatteryLevel {
-            battery_type: BatteryType::Cradle
+        SonyCommand::CommonGetBatteryLevel(common::GetBatteryLevel {
+            battery_type: BatteryInquiredType::CradleBattery
         }),
-        SonyCommand::CommonGetUpscalingEffect(GetUpscalingEffect {
+        SonyCommand::CommonGetUpscalingEffect(common::GetUpscalingEffect {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
-        SonyCommand::CommonGetAudioCodec(GetAudioCodec {
+        SonyCommand::CommonGetAudioCodec(common::GetAudioCodec {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
-        SonyCommand::CommonGetBluetoothDeviceInfo(GetBluetoothDeviceInfo {
+        SonyCommand::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
             bluetooth_device_info_type: BluetoothDeviceInfoType::BluetoothDeviceAddress
         }),
-        SonyCommand::CommonGetBluetoothDeviceInfo(GetBluetoothDeviceInfo {
+        SonyCommand::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
             bluetooth_device_info_type: BluetoothDeviceInfoType::BleHashValue
         }),
-        SonyCommand::CommonGetConnectionStatus(GetConnectionStatus {
+        SonyCommand::CommonGetConnectionStatus(common::GetConnectionStatus {
             connection_status_inquired_type: ConnectionStatusInquiredType::LeftRightConnectionStatus
         }),
-        SonyCommand::CommonSetLinkControl(SetLinkControl::KeepAlive(KeepAliveLinkControl{
-            status: CommonStatus::Enable,
-            duration: 1
-        })),
+
+        // Update
+        // SonyCommand::UpdtGetParam(update::GetParam {
+        //     update_inquired_type: UpdateInquiredType::NoUse,
+        // }),
+        // SonyCommand::UpdtGetParam(update::GetParam {
+        //     update_inquired_type: UpdateInquiredType::FwUpdateMode,
+        // }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::CategoryId,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::ServiceId,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::NationCode,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::Language,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::SerialNumber,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::BleTxPower,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::BatteryPowerThreshold,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::UpdateMethod,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::BatteryPowerThresholdForInterruptiongFwUpdate,
+        }),
+        SonyCommand::UpdtGetParam(update::GetParam {
+            update_inquired_type: UpdateInquiredType::UniqueIdForDeviceBinding,
+        }),
     ];
 
     for test in &tests {

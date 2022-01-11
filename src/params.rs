@@ -10,6 +10,21 @@ pub enum CommonStatus {
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
+pub enum UpdateMethod {
+    TandemMethod = 0,
+    CsrMethod = 16,
+    CsrResumableMethod = 17,
+    CsrTwsMethod = 18,
+    CsrTwsResumableMethod = 19,
+    MtkMethod = 32,
+    MtkResumableMethod = 33,
+    MtkTwsResumableMethod = 35,
+    MtkBackgroundResumableMethod = 37,
+    MtkTwsBackgroundResumableMethod = 39,
+}
+
+#[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
+#[deku(type = "u8")]
 pub enum DeviceInfoInquiredType {
     NoUse = 0,
     ModelName = 1,
