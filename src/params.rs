@@ -279,29 +279,29 @@ pub enum MetaDataDisplayType {
 #[deku(type = "u8")]
 pub enum FunctionType {
     NoUse = 0,
-    BatteryLevel = 17,
-    UpscalingIndicator = 18,
-    CodecIndicator = 19,
+    BatteryLevel = 17, // CommonGetBatteryLevel - Battery
+    UpscalingIndicator = 18, // CommonGetUpscalingEffect
+    CodecIndicator = 19, // CommonGetAudioCodec
     BleSetup = 20,
-    LeftRightBatteryLevel = 21,
+    LeftRightBatteryLevel = 21, // CommonGetBatteryLevel - Left Right Battery
     LeftRightConnectionStatus = 23,
-    CradleBatteryLevel = 24,
-    PowerOff = 33,
-    ConciergeData = 34,
-    TandemKeepAlive = 35,
+    CradleBatteryLevel = 24, // CommonGetBatteryLevel - Cradle Battery
+    PowerOff = 33, // CommonSetPowerOff
+    ConciergeData = 34, // CommonGetConciergeData
+    TandemKeepAlive = 35, // CommonSetLinkControl?
     FwUpdate = 48,
     PairingDeviceManagementClassicBt = 56,
     VoiceGuidance = 57,
-    Vpt = 65,
-    SoundPosition = 66,
-    PresetEq = 81,
-    Ebb = 82,
+    Vpt = 65, // Vpt
+    SoundPosition = 66, // Vpt
+    PresetEq = 81, // EqEbb
+    Ebb = 82, // EqEbb
     PresetEqNoncustomizable = 83,
-    NoiseCancelling = 97,
-    NoiseCancellingAndAmbientSoundMode = 98,
-    AmbientSoundMode = 99,
-    AutoNcAsm = 113,
-    NcOptimizer = 129,
+    NoiseCancelling = 97, // NcAsm
+    NoiseCancellingAndAmbientSoundMode = 98, // NcAsm
+    AmbientSoundMode = 99, // NcAsm
+    AutoNcAsm = 113, // NcAsm
+    NcOptimizer = 129, // NcAsm
     VibratorAlertNotification = 146,
     PlaybackController = 161,
     TrainingMode = 177,
@@ -570,7 +570,7 @@ pub enum SenseInquiredType {
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
-#[deku(type = "u32")]
+#[deku(type = "i16", endian = "big")]
 pub enum SpecificInformationType {
     ClearBass = 1,
     DontCare = 0,

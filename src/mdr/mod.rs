@@ -3,10 +3,11 @@ use deku::prelude::*;
 pub mod common;
 pub mod connect;
 pub mod update;
+pub mod eq_ebb;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
-pub enum SonyCommand {
+pub enum Mdr {
     #[deku(id = "0")] ConnectGetProtocolInfo(connect::GetProtocolInfo),
     #[deku(id = "1")] ConnectRetProtocolInfo(connect::RetProtocolInfo),
     #[deku(id = "2")] ConnectGetCapabilityInfo(connect::GetCapabilityInfo),
@@ -41,6 +42,7 @@ pub enum SonyCommand {
     #[deku(id = "54")] UpdtGetParam(update::GetParam),
     #[deku(id = "55")] UpdtRetParam(update::RetParam),
 
+    // Unable to test vpt since my WF-1000XM3's dont support it
     #[deku(id = "64")] VptGetCapability,
     #[deku(id = "65")] VptRetCapability,
     #[deku(id = "66")] VptGetStatus,
@@ -51,17 +53,17 @@ pub enum SonyCommand {
     #[deku(id = "72")] VptSetParam,
     #[deku(id = "73")] VptNtfyParam,
 
-    #[deku(id = "80")] EqEbbGetCapability,
-    #[deku(id = "81")] EqEbbRetCapability,
-    #[deku(id = "82")] EqEbbGetStatus,
-    #[deku(id = "83")] EqEbbRetStatus,
-    #[deku(id = "85")] EqEbbNtfyStatus,
-    #[deku(id = "86")] EqEbbGetParam,
-    #[deku(id = "87")] EqEbbRetParam,
-    #[deku(id = "88")] EqEbbSetParam,
-    #[deku(id = "89")] EqEbbNtfyParam,
-    #[deku(id = "90")] EqEbbGetExtendedInfo,
-    #[deku(id = "91")] EqEbbRetExtendedInfo,
+    #[deku(id = "80")] EqEbbGetCapability(eq_ebb::EqEbbGetCapability),
+    #[deku(id = "81")] EqEbbRetCapability(eq_ebb::EqEbbRetCapability),
+    #[deku(id = "82")] EqEbbGetStatus(eq_ebb::EqEbbGetStatus),
+    #[deku(id = "83")] EqEbbRetStatus(eq_ebb::EqEbbRetStatus),
+    #[deku(id = "85")] EqEbbNtfyStatus(eq_ebb::EqEbbNtfyStatus),
+    #[deku(id = "86")] EqEbbGetParam(eq_ebb::EqEbbGetParam),
+    #[deku(id = "87")] EqEbbRetParam(eq_ebb::EqEbbRetParam),
+    #[deku(id = "88")] EqEbbSetParam(eq_ebb::EqEbbSetParam),
+    #[deku(id = "89")] EqEbbNtfyParam(eq_ebb::EqEbbNtfyParam),
+    #[deku(id = "90")] EqEbbGetExtendedInfo(eq_ebb::EqEbbGetExtendedInfo),
+    #[deku(id = "91")] EqEbbRetExtendedInfo(eq_ebb::EqEbbRetExtendedInfo),
 
     #[deku(id = "96")] NcAsmGetCapability,
     #[deku(id = "97")] NcAsmRetCapability,

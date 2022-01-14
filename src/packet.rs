@@ -1,25 +1,27 @@
 use deku::prelude::*;
-use crate::commands::SonyCommand;
+use crate::mdr2::Mdr2;
+use crate::mdr::Mdr;
 
+/// Basically all
 #[derive(Debug, Copy, Clone, Eq, PartialEq, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
 pub enum DataType {
-    #[deku(id = "0")] Data = 0,
-    #[deku(id = "2")] DataMcNo1 = 2,
-    #[deku(id = "9")] DataIcd = 9,
-    #[deku(id = "10")] DataEv = 10,
+    #[deku(id = "0")] Data = 0, // Unused
+    #[deku(id = "2")] DataMcNo1 = 2, // Unused
+    #[deku(id = "9")] DataIcd = 9, // Unused
+    #[deku(id = "10")] DataEv = 10, // Unused
     #[deku(id = "12")] DataMdr = 12,
-    #[deku(id = "13")] DataCommon = 13,
+    #[deku(id = "13")] DataCommon = 13, // Unused
     #[deku(id = "14")] DataMdrNo2 = 14,
     #[deku(id = "1")] Ack = 1,
-    #[deku(id = "16")] Shot = 16,
-    #[deku(id = "18")] ShotMcNo1 = 18,
-    #[deku(id = "25")] ShotIcd = 25,
-    #[deku(id = "26")] ShotEv = 26,
+    #[deku(id = "16")] Shot = 16, // Unused
+    #[deku(id = "18")] ShotMcNo1 = 18, // Unused
+    #[deku(id = "25")] ShotIcd = 25, // Unused
+    #[deku(id = "26")] ShotEv = 26, // Unused?
     #[deku(id = "28")] ShotMdr = 28,
-    #[deku(id = "29")] ShotCommon = 29,
+    #[deku(id = "29")] ShotCommon = 29, // Unused
     #[deku(id = "30")] ShotMdrNo2 = 30,
-    #[deku(id = "45")] LargeDataCommon = 45,
+    #[deku(id = "45")] LargeDataCommon = 45, // Unused
 }
 
 impl DataType {
@@ -77,7 +79,7 @@ static PACKET_ACK_1: Packet = Packet {
 };
 
 impl Packet {
-    pub fn new_cmd(cmd: &SonyCommand) -> Packet {
+    pub fn new_cmd(cmd: &Mdr) -> Packet {
         let cmd_data = cmd.to_bytes().unwrap();
 
         let mut p = Packet {
@@ -92,10 +94,22 @@ impl Packet {
         p
     }
 
-    pub fn read_cmd(&self) -> SonyCommand {
-        assert!(self.data_type == DataType::DataMdr);
+    pub fn read_mdr(&self) -> Mdr {
+        assert!(self.data_type == DataType::DataMdr || self.data_type == DataType::ShotMdr);
 
-        let ((remaining, _), c): ((&[u8], _), SonyCommand) = SonyCommand::from_bytes((&self.data, 0)).unwrap();
+        let ((remaining, _), c): ((&[u8], _), Mdr) = Mdr::from_bytes((&self.data, 0)).unwrap();
+
+        if !remaining.is_empty() {
+            println!("WARNING: Unexpected leftover Command bytes. {:?}", remaining);
+        }
+
+        c
+    }
+
+    pub fn read_mdr2(&self) -> Mdr2 {
+        assert!(self.data_type == DataType::DataMdrNo2 || self.data_type == DataType::ShotMdrNo2);
+
+        let ((remaining, _), c): ((&[u8], _), Mdr2) = Mdr2::from_bytes((&self.data, 0)).unwrap();
 
         if !remaining.is_empty() {
             println!("WARNING: Unexpected leftover Command bytes. {:?}", remaining);

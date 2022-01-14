@@ -103,7 +103,7 @@ pub struct DeviceInfoSeriesAndColorInfo {
 
 #[derive(Debug, DekuRead, DekuWrite)]
 pub struct DeviceInfoInstructionGuide {
-    #[deku(endian = "big", update = "self.guidance_categories.len()")]
+    #[deku(update = "self.guidance_categories.len()")]
     pub guidance_len: u8,
 
     #[deku(count = "guidance_len")]
@@ -120,7 +120,7 @@ pub struct GetSupportFunction {
 pub struct RetSupportFunction {
     pub common_capability_inquired_type: CommonCapabilityInquiredType,
 
-    #[deku(endian = "big", update = "self.support_functions.len()")]
+    #[deku(update = "self.support_functions.len()")]
     pub functions_len: u8,
 
     #[deku(count = "functions_len")]

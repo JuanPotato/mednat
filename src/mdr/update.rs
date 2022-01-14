@@ -1,7 +1,7 @@
 use crate::params::{CommonCapabilityInquiredType, DeviceInfoInquiredType, FunctionType, GuidanceCategory, ModelSeries, UpdateInquiredType, UpdateMethod};
 use crate::len_str::{read_len_str, write_len_str};
-use deku::prelude::*;
 use crate::CommonStatus;
+use deku::prelude::*;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 pub struct SetStatus {
@@ -80,5 +80,5 @@ pub struct BatteryPowerThresholdForInterruptiongFwUpdateRetParam {
 
 #[derive(Debug, DekuRead, DekuWrite)]
 pub struct UpdateMethodRetParam {
-    pub update_method: UpdateMethod
+    pub update_method: UpdateMethod,
 }

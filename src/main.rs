@@ -7,14 +7,15 @@ mod btaddr;
 mod packet;
 mod len_str;
 mod params;
-mod commands;
+mod mdr;
+mod mdr2;
 
 use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, PowerOffInquiredType, PowerOffSettingValue, UpdateInquiredType};
-use crate::commands::*;
+use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, PowerOffInquiredType, PowerOffSettingValue, UpdateInquiredType, VptInquiredType};
+use crate::mdr::*;
 
 fn main() {
     let b = btaddr::BtAddr::from_str("94:DB:56:99:AF:26").unwrap().convert_host_byteorder();
@@ -22,87 +23,105 @@ fn main() {
 
     let tests = [
         // Connect
-        SonyCommand::ConnectGetProtocolInfo(connect::GetProtocolInfo {
+        Mdr::ConnectGetProtocolInfo(connect::GetProtocolInfo {
             capability_inquired: CommonCapabilityInquiredType::FixedValue,
         }),
-        SonyCommand::ConnectGetCapabilityInfo(connect::GetCapabilityInfo {
+        Mdr::ConnectGetCapabilityInfo(connect::GetCapabilityInfo {
             capability_inquired: CommonCapabilityInquiredType::FixedValue,
         }),
-        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
+        Mdr::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::SeriesAndColorInfo,
         }),
-        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
+        Mdr::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::ModelName,
         }),
-        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
+        Mdr::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::FwVersion,
         }),
-        SonyCommand::ConnectGetDeviceInfo(connect::GetDeviceInfo {
+        Mdr::ConnectGetDeviceInfo(connect::GetDeviceInfo {
             info_inquired: DeviceInfoInquiredType::InstructionGuide,
         }),
-        SonyCommand::ConnectGetSupportFunction(connect::GetSupportFunction {
+        Mdr::ConnectGetSupportFunction(connect::GetSupportFunction {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
 
         // Common
-        SonyCommand::CommonGetBatteryLevel(common::GetBatteryLevel {
+        Mdr::CommonGetBatteryLevel(common::GetBatteryLevel {
             battery_type: BatteryInquiredType::LeftRightBattery
         }),
-        SonyCommand::CommonGetBatteryLevel(common::GetBatteryLevel {
+        Mdr::CommonGetBatteryLevel(common::GetBatteryLevel {
             battery_type: BatteryInquiredType::CradleBattery
         }),
-        SonyCommand::CommonGetUpscalingEffect(common::GetUpscalingEffect {
+        Mdr::CommonGetUpscalingEffect(common::GetUpscalingEffect {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
-        SonyCommand::CommonGetAudioCodec(common::GetAudioCodec {
+        Mdr::CommonGetAudioCodec(common::GetAudioCodec {
             common_capability_inquired_type: CommonCapabilityInquiredType::FixedValue
         }),
-        SonyCommand::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
+        Mdr::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
             bluetooth_device_info_type: BluetoothDeviceInfoType::BluetoothDeviceAddress
         }),
-        SonyCommand::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
+        Mdr::CommonGetBluetoothDeviceInfo(common::GetBluetoothDeviceInfo {
             bluetooth_device_info_type: BluetoothDeviceInfoType::BleHashValue
         }),
-        SonyCommand::CommonGetConnectionStatus(common::GetConnectionStatus {
+        Mdr::CommonGetConnectionStatus(common::GetConnectionStatus {
             connection_status_inquired_type: ConnectionStatusInquiredType::LeftRightConnectionStatus
         }),
 
         // Update
-        // SonyCommand::UpdtGetParam(update::GetParam {
+        // Mdr::UpdtGetParam(update::GetParam {
         //     update_inquired_type: UpdateInquiredType::NoUse,
         // }),
-        // SonyCommand::UpdtGetParam(update::GetParam {
+        // Mdr::UpdtGetParam(update::GetParam {
         //     update_inquired_type: UpdateInquiredType::FwUpdateMode,
         // }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::CategoryId,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::ServiceId,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::NationCode,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::Language,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::SerialNumber,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::BleTxPower,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::BatteryPowerThreshold,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::UpdateMethod,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::BatteryPowerThresholdForInterruptiongFwUpdate,
         }),
-        SonyCommand::UpdtGetParam(update::GetParam {
+        Mdr::UpdtGetParam(update::GetParam {
             update_inquired_type: UpdateInquiredType::UniqueIdForDeviceBinding,
+        }),
+
+        // EqEbb
+        Mdr::EqEbbGetCapability(eq_ebb::EqEbbGetCapability {
+            eq_ebb_inquired_type: EqEbbInquiredType::PresetEq,
+            display_language: DisplayLanguage::English
+        }),
+
+        Mdr::EqEbbGetStatus(eq_ebb::EqEbbGetStatus {
+            eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
+        }),
+
+        Mdr::EqEbbGetParam(eq_ebb::EqEbbGetParam {
+            eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
+        }),
+
+        Mdr::EqEbbGetExtendedInfo(eq_ebb::EqEbbGetExtendedInfo {
+            eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
         }),
     ];
 
@@ -113,7 +132,7 @@ fn main() {
     loop {
         let p = dbg!(client.read_packet());
         if p.data_type == DataType::DataMdr {
-            dbg!(p.read_cmd());
+            dbg!(p.read_mdr());
         }
     }
 }
@@ -141,7 +160,7 @@ impl Client {
         }
     }
 
-    pub fn send_cmd(&mut self, cmd: &SonyCommand) {
+    pub fn send_mdr(&mut self, cmd: &Mdr) {
         let mut packet = Packet::new_cmd(cmd);
         packet.seq_no = self.seq_no;
         self.seq_no = 1 - self.seq_no;
@@ -150,13 +169,13 @@ impl Client {
         self.send_packet(&packet);
     }
 
-    pub fn test(&mut self, cmd: &SonyCommand) {
-        self.send_cmd(cmd);
+    pub fn test(&mut self, cmd: &Mdr) {
+        self.send_mdr(cmd);
         let ack = self.read_packet();
         assert!(ack.data_type == DataType::Ack);
         assert!(ack.data.is_empty());
 
-        dbg!(self.read_packet().read_cmd());
+        dbg!(self.read_packet().read_mdr());
     }
 
     fn send_packet(&mut self, p: &Packet) {
