@@ -14,7 +14,7 @@ use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, PowerOffInquiredType, PowerOffSettingValue, UpdateInquiredType, VptInquiredType};
+use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, NcAsmInquiredType, PowerOffInquiredType, PowerOffSettingValue, UpdateInquiredType, VptInquiredType};
 use crate::mdr::*;
 
 fn main() {
@@ -109,20 +109,28 @@ fn main() {
         // EqEbb
         Mdr::EqEbbGetCapability(eq_ebb::EqEbbGetCapability {
             eq_ebb_inquired_type: EqEbbInquiredType::PresetEq,
-            display_language: DisplayLanguage::English
+            display_language: DisplayLanguage::English,
         }),
-
         Mdr::EqEbbGetStatus(eq_ebb::EqEbbGetStatus {
             eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
         }),
-
         Mdr::EqEbbGetParam(eq_ebb::EqEbbGetParam {
             eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
         }),
-
         Mdr::EqEbbGetExtendedInfo(eq_ebb::EqEbbGetExtendedInfo {
             eq_ebb_inquired_type: EqEbbInquiredType::PresetEq
         }),
+
+        // NcAsm
+        Mdr::NcAsmGetCapability(nc_asm::NcAsmGetCapability {
+            nc_asm_inquired_type: NcAsmInquiredType::NoiseCancellingAndAmbientSoundMode
+        }),
+        Mdr::NcAsmGetStatus(nc_asm::NcAsmGetStatus {
+            nc_asm_inquired_type: NcAsmInquiredType::NoiseCancellingAndAmbientSoundMode
+        }),
+        Mdr::NcAsmGetParam(nc_asm::NcAsmGetParam {
+            nc_asm_inquired_type: NcAsmInquiredType::NoiseCancellingAndAmbientSoundMode
+        })
     ];
 
     for test in &tests {

@@ -4,6 +4,7 @@ pub mod common;
 pub mod connect;
 pub mod update;
 pub mod eq_ebb;
+pub mod nc_asm;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
@@ -65,15 +66,15 @@ pub enum Mdr {
     #[deku(id = "90")] EqEbbGetExtendedInfo(eq_ebb::EqEbbGetExtendedInfo),
     #[deku(id = "91")] EqEbbRetExtendedInfo(eq_ebb::EqEbbRetExtendedInfo),
 
-    #[deku(id = "96")] NcAsmGetCapability,
-    #[deku(id = "97")] NcAsmRetCapability,
-    #[deku(id = "98")] NcAsmGetStatus,
-    #[deku(id = "99")] NcAsmRetStatus,
-    #[deku(id = "101")] NcAsmNtfyStatus,
-    #[deku(id = "102")] NcAsmGetParam,
-    #[deku(id = "103")] NcAsmRetParam,
-    #[deku(id = "104")] NcAsmSetParam,
-    #[deku(id = "105")] NcAsmNtfyParam,
+    #[deku(id = "96")] NcAsmGetCapability(nc_asm::NcAsmGetCapability),
+    #[deku(id = "97")] NcAsmRetCapability(nc_asm::NcAsmRetCapability),
+    #[deku(id = "98")] NcAsmGetStatus(nc_asm::NcAsmGetStatus),
+    #[deku(id = "99")] NcAsmRetStatus(nc_asm::NcAsmRetStatus),
+    #[deku(id = "101")] NcAsmNtfyStatus(nc_asm::NcAsmNtfyStatus),
+    #[deku(id = "102")] NcAsmGetParam(nc_asm::NcAsmGetParam),
+    #[deku(id = "103")] NcAsmRetParam(nc_asm::NcAsmRetParam),
+    #[deku(id = "104")] NcAsmSetParam(nc_asm::NcAsmSetParam),
+    #[deku(id = "105")] NcAsmNtfyParam(nc_asm::NcAsmNtfyParam),
 
     #[deku(id = "112")] SenseGetCapability,
     #[deku(id = "113")] SenseRetCapability,

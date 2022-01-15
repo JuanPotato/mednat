@@ -1,6 +1,5 @@
 use deku::prelude::*;
-use crate::{CommonStatus, DisplayLanguage};
-use crate::params::{EqBandInformationType, EqEbbInquiredType, EqPresetId, SpecificInformationType};
+use crate::params::{CommonStatus, DisplayLanguage, EqBandInformationType, EqEbbInquiredType, EqPresetId, SpecificInformationType};
 use crate::len_str::{read_len_str, write_len_str};
 
 #[derive(Debug, DekuRead, DekuWrite)]
