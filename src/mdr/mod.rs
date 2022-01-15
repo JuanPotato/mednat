@@ -5,6 +5,8 @@ pub mod connect;
 pub mod update;
 pub mod eq_ebb;
 pub mod nc_asm;
+pub mod sense;
+pub mod opt;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
@@ -76,19 +78,20 @@ pub enum Mdr {
     #[deku(id = "104")] NcAsmSetParam(nc_asm::NcAsmSetParam),
     #[deku(id = "105")] NcAsmNtfyParam(nc_asm::NcAsmNtfyParam),
 
-    #[deku(id = "112")] SenseGetCapability,
-    #[deku(id = "113")] SenseRetCapability,
-    #[deku(id = "116")] SenseSetStatus,
+    #[deku(id = "112")] SenseGetCapability(sense::SenseGetCapability),
+    #[deku(id = "113")] SenseRetCapability(sense::SenseRetCapability),
+    #[deku(id = "116")] SenseSetStatus(sense::SenseSetStatus),
 
-    #[deku(id = "128")] OptGetCapability,
-    #[deku(id = "129")] OptRetCapability,
-    #[deku(id = "130")] OptGetStatus,
-    #[deku(id = "131")] OptRetStatus,
-    #[deku(id = "132")] OptSetStatus,
-    #[deku(id = "133")] OptNtfyStatus,
-    #[deku(id = "134")] OptGetParam,
-    #[deku(id = "135")] OptRetParam,
-    #[deku(id = "137")] OptNtfyParam,
+    // Unable to test opt since my WF-1000XM3's dont support it
+    #[deku(id = "128")] OptGetCapability(opt::OptGetCapability),
+    #[deku(id = "129")] OptRetCapability(opt::OptRetCapability),
+    #[deku(id = "130")] OptGetStatus(opt::OptGetStatus),
+    #[deku(id = "131")] OptRetStatus(opt::OptRetStatus),
+    #[deku(id = "132")] OptSetStatus(opt::OptSetStatus),
+    #[deku(id = "133")] OptNtfyStatus(opt::OptNtfyStatus),
+    #[deku(id = "134")] OptGetParam(opt::OptGetParam),
+    #[deku(id = "135")] OptRetParam(opt::OptRetParam),
+    #[deku(id = "137")] OptNtfyParam(opt::OptNtfyParam),
 
     #[deku(id = "144")] AlertGetCapability,
     #[deku(id = "145")] AlertRetCapability,
