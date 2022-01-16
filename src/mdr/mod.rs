@@ -8,6 +8,7 @@ pub mod nc_asm;
 pub mod sense;
 pub mod opt;
 pub mod alert;
+pub mod play;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
@@ -101,16 +102,16 @@ pub enum Mdr {
     #[deku(id = "152")] AlertSetParam(alert::AlertSetParam),
     #[deku(id = "153")] AlertNtfyParam(alert::AlertNtfyParam),
 
-    #[deku(id = "160")] PlayGetCapability,
-    #[deku(id = "161")] PlayRetCapability,
-    #[deku(id = "162")] PlayGetStatus,
-    #[deku(id = "163")] PlayRetStatus,
-    #[deku(id = "164")] PlaySetStatus,
-    #[deku(id = "165")] PlayNtfyStatus,
-    #[deku(id = "166")] PlayGetParam,
-    #[deku(id = "167")] PlayRetParam,
-    #[deku(id = "168")] PlaySetParam,
-    #[deku(id = "169")] PlayNtfyParam,
+    #[deku(id = "160")] PlayGetCapability(play::PlayGetCapability),
+    #[deku(id = "161")] PlayRetCapability(play::PlayRetCapability),
+    #[deku(id = "162")] PlayGetStatus(play::PlayGetStatus),
+    #[deku(id = "163")] PlayRetStatus(play::PlayRetStatus),
+    #[deku(id = "164")] PlaySetStatus(play::PlaySetStatus),
+    #[deku(id = "165")] PlayNtfyStatus(play::PlayNtfyStatus),
+    #[deku(id = "166")] PlayGetParam(play::PlayGetParam),
+    #[deku(id = "167")] PlayRetParam(play::PlayRetParam),
+    #[deku(id = "168")] PlaySetParam(play::PlaySetParam),
+    #[deku(id = "169")] PlayNtfyParam(play::PlayNtfyParam),
 
     #[deku(id = "176")] SportsGetCapability,
     #[deku(id = "177")] SportsRetCapability,

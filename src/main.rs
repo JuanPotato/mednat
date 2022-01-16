@@ -14,8 +14,9 @@ use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{AlertInquiredType, BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, NcAsmInquiredType, OptimizerInquiredType, PowerOffInquiredType, PowerOffSettingValue, SenseInquiredType, UpdateInquiredType, VptInquiredType};
+use crate::params::{AlertInquiredType, BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, NcAsmInquiredType, OptimizerInquiredType, PlaybackDetailedDataType, PlayInquiredType, PowerOffInquiredType, PowerOffSettingValue, SenseInquiredType, UpdateInquiredType, VptInquiredType};
 use crate::mdr::*;
+use crate::play::{SetParamPlaybackDetailedData, VolumePlaybackDetailedData};
 
 fn main() {
     let b = btaddr::BtAddr::from_str("94:DB:56:99:AF:26").unwrap().convert_host_byteorder();
@@ -137,11 +138,43 @@ fn main() {
             sense_inquired_type: SenseInquiredType::AutoNcAsm
         }),
 
-        // Alert
-        Mdr::AlertGetCapability(alert::AlertGetCapability {
-            alert_inquired_type: AlertInquiredType::NoUse,
+        // Play
+        Mdr::PlayGetCapability(play::PlayGetCapability {
+            play_inquired_type: PlayInquiredType::PlaybackController,
         }),
-
+        Mdr::PlayGetStatus(play::PlayGetStatus {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::TrackName,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::AlbumName,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::ArtistName,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::GenreName,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::PlayerName,
+        }),
+        Mdr::PlayGetParam(play::PlayGetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            playback_detailed_data_type: PlaybackDetailedDataType::Volume,
+        }),
+        Mdr::PlaySetParam(play::PlaySetParam {
+            play_inquired_type: PlayInquiredType::PlaybackController,
+            detailed_data: SetParamPlaybackDetailedData::Volume(VolumePlaybackDetailedData {
+                volume: 5,
+            }),
+        })
     ];
 
     for test in &tests {
