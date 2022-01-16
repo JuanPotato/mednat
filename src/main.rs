@@ -14,7 +14,7 @@ use deku::prelude::*;
 use std::io::{Write, BufReader, BufRead};
 use packet::*;
 use crate::btaddr::BtAddr;
-use crate::params::{BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, NcAsmInquiredType, OptimizerInquiredType, PowerOffInquiredType, PowerOffSettingValue, SenseInquiredType, UpdateInquiredType, VptInquiredType};
+use crate::params::{AlertInquiredType, BatteryInquiredType, BluetoothDeviceInfoType, CommonCapabilityInquiredType, CommonStatus, ConnectionStatusInquiredType, DeviceInfoInquiredType, DisplayLanguage, EqEbbInquiredType, NcAsmInquiredType, OptimizerInquiredType, PowerOffInquiredType, PowerOffSettingValue, SenseInquiredType, UpdateInquiredType, VptInquiredType};
 use crate::mdr::*;
 
 fn main() {
@@ -137,9 +137,9 @@ fn main() {
             sense_inquired_type: SenseInquiredType::AutoNcAsm
         }),
 
-        // Opt
-        Mdr::OptGetCapability(opt::OptGetCapability {
-            optimizer_inquired_type: OptimizerInquiredType::NcMusicOptimizer,
+        // Alert
+        Mdr::AlertGetCapability(alert::AlertGetCapability {
+            alert_inquired_type: AlertInquiredType::NoUse,
         }),
 
     ];

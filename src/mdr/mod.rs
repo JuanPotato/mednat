@@ -7,6 +7,7 @@ pub mod eq_ebb;
 pub mod nc_asm;
 pub mod sense;
 pub mod opt;
+pub mod alert;
 
 #[derive(Debug, DekuRead, DekuWrite)]
 #[deku(type = "u8")]
@@ -93,11 +94,12 @@ pub enum Mdr {
     #[deku(id = "135")] OptRetParam(opt::OptRetParam),
     #[deku(id = "137")] OptNtfyParam(opt::OptNtfyParam),
 
-    #[deku(id = "144")] AlertGetCapability,
-    #[deku(id = "145")] AlertRetCapability,
-    #[deku(id = "148")] AlertSetStatus,
-    #[deku(id = "152")] AlertSetParam,
-    #[deku(id = "153")] AlertNtfyParam,
+    // Unable to test alert since my WF-1000XM3's dont support it
+    #[deku(id = "144")] AlertGetCapability(alert::AlertGetCapability),
+    #[deku(id = "145")] AlertRetCapability(alert::AlertRetCapability),
+    #[deku(id = "148")] AlertSetStatus(alert::AlertSetStatus),
+    #[deku(id = "152")] AlertSetParam(alert::AlertSetParam),
+    #[deku(id = "153")] AlertNtfyParam(alert::AlertNtfyParam),
 
     #[deku(id = "160")] PlayGetCapability,
     #[deku(id = "161")] PlayRetCapability,

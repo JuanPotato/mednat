@@ -302,7 +302,7 @@ pub enum FunctionType {
     AmbientSoundMode = 99, // NcAsm
     AutoNcAsm = 113, // NcAsm
     NcOptimizer = 129, // NcAsm
-    VibratorAlertNotification = 146,
+    VibratorAlertNotification = 146, // Alert
     PlaybackController = 161,
     TrainingMode = 177,
     ActionLogNotifier = 193,
